@@ -17,7 +17,7 @@ class Typo3ValetDriver extends ValetDriver
     | to '', if you don't use a subdirectory but valet link directly.
     |
     */
-    protected $documentRoot = '/web';
+    protected $documentRoot = '/public';
 
     /*
     |--------------------------------------------------------------------------
@@ -134,6 +134,11 @@ class Typo3ValetDriver extends ValetDriver
                 // this file can be served directly
                 return $this->serveScript($sitePath, $siteName, $uri);
             }
+        }
+
+        // Handle backend route
+        if (preg_match('/\/typo3\//', $uri)) {
+            return $this->serveScript($sitePath, $siteName, '/typo3/index.php');
         }
 
         // the global index.php will handle all other cases
